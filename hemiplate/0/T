@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|   Temperature initial conditions and BCs                                  |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      T;
+}
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 300;   // hemisphere+plate initially 300 K
+
+boundaryField
+{
+    hotPlateBottom
+    {
+        type    fixedValue;
+        value   uniform 373;  // hot boundary at 100 °C
+    }
+
+    hemisphereSurface
+    {
+        type    zeroGradient; // insulated hemisphere outside
+    }
+
+    plateSides
+    {
+        type    zeroGradient; // insulated sides of plate
+    }
+
+    plateTop
+    {
+        type    zeroGradient; // top plate surface not touching hemisphere
+    }
+
+    defaultFaces
+    {
+        type    zeroGradient;
+    }
+}
+

@@ -1,0 +1,18 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|   Thermal conductivity properties                                         |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      transportProperties;
+}
+
+transportModel  constant;
+
+// thermal conductivity [W/mK]
+k               50;     // example: stainless steel
+
