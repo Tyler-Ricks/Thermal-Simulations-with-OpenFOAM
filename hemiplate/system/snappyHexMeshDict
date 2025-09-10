@@ -1,5 +1,5 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-|   SnappyHexMeshDict to embed hemisphere                                   |
+|   SnappyHexMeshDict to embed hemisphere                                    |
 \*---------------------------------------------------------------------------*/
 
 FoamFile
@@ -42,7 +42,16 @@ castellatedMeshControls
         }
     }
 
+    refinementRegions
+    {
+    }
+
+
+    allowFreeStandingZoneFaces false;
     resolveFeatureAngle 30;
+
+    // *** Critical: make sure this point is inside the mesh to be kept ***
+    locationInMesh (0 0 0.005);
 }
 
 snapControls
@@ -57,8 +66,73 @@ addLayersControls
 {
 }
 
+/*
 meshQualityControls
 {
+    maxNonOrtho 75;
+
+    minVol 1e-13;
+
+    minTetQuality 1e-9; // do 1e-4 for balanced, or just 0.1 for very good quality
+    
+    maxConcave 100;
+    
+    minArea 1e-8; // increase for higher res
+}
+*/
+
+meshQualityControls
+{
+    // Maximum non-orthogonality (degrees)
+    maxNonOrtho 75;
+
+    // Maximum skewness for boundary faces
+    maxBoundarySkewness 20;
+
+    // Maximum skewness for internal faces
+    maxInternalSkewness 4;
+
+    // Maximum allowed concavity (degrees)
+    maxConcave 100;
+
+    // Maximum aspect ratio of cells
+    maxAspectRatio 1000;
+
+    // Minimum cell volume
+    minVol 1e-13;
+
+    // Minimum determinant of cell Jacobian (avoids negative/zero volumes)
+    minDeterminant 0.001;
+
+    // Minimum weight for a face (area/distance between cell centers)
+    minFaceWeight 0.02;
+
+    // Minimum ratio between neighboring cell volumes
+    minVolRatio 0.01;
+
+    // Minimum triangle twist (for surface triangles)
+    minTriangleTwist -1;
+
+    // Minimum tetrahedron quality
+    minTetQuality 1e-9;
+
+    // Minimum face area
+    minArea 1e-8;
+
+    // Number of smoothing steps for metrics
+    nSmoothScale 4;
+
+    // Factor for error reduction in smoothing
+    errorReduction 0.75;
+
+    // Optional: maximum skewness for non-orthogonal cells
+    maxSkewness 4; // v2012 sometimes requires this
+
+    minTwist -1;
 }
 
+
+mergeTolerance 1e-6;
+
+// ************************************************************************* //
 

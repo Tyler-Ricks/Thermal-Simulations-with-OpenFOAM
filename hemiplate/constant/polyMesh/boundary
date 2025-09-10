@@ -15,25 +15,20 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-3
+2
 (
     hotPlateBottom
     {
         type            patch;
-        nFaces          2500;
-        startFace       71500;
+        nFaces          2872;
+        startFace       350764;
     }
-    plateTop
+    hemisphereSurface
     {
-        type            patch;
-        nFaces          2500;
-        startFace       74000;
-    }
-    plateSides
-    {
-        type            patch;
-        nFaces          2000;
-        startFace       76500;
+        type            wall;
+        inGroups        1(wall);
+        nFaces          40168;
+        startFace       353636;
     }
 )
 

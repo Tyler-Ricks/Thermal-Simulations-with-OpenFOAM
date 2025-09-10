@@ -1,5 +1,5 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-|   Thermal conductivity properties                                         |
+|   Thermal diffusivity properties                                         |
 \*---------------------------------------------------------------------------*/
 
 FoamFile
@@ -13,6 +13,6 @@ FoamFile
 
 transportModel  constant;
 
-// thermal conductivity [W/mK]
-k               50;     // example: stainless steel
+// thermal diffusivity [m^2/s]
+DT              1.25e-5;   // example for stainless steel
 
