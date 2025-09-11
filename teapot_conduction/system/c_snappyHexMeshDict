@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Web:      www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh true;
+snap            true;
+addLayers       false;   // can be turned on later for boundary-layer refinement
+
+geometry
+{
+    teapot_clean.stl
+    {
+        type triSurfaceMesh;
+        name teapot;
+    }
+}
+
+castellatedMeshControls
+{
+    maxLocalCells 100000;    // limit per processor
+    maxGlobalCells 200000;   // global cell budget
+    minRefinementCells 10;   // don’t drop refinement if less than this
+    nCellsBetweenLevels 3;
+
+    features ();             // skip feature edges for now
+
+    refinementSurfaces
+    {
+        teapot
+        {
+            level (2 3);     // min and max refinement level near surface
+            faceZone teapotZone;
+            cellZone teapotCells;
+            region teapotRegion;
+        }
+    }
+
+    /*refinementSurfaces
+        {
+            teapot
+            {
+                level (2 2);
+                //level (4 5);     // min and max refinement level near surface 
+            }
+        }
+    */
+    /*
+    refinementRegions
+        {
+            teapotRegion
+            {
+                mode inside;   // refine cells inside STL closed volume
+                levels ((1E15 3));  // refine all inside cells to level 3
+            }
+        }
+    */
+    resolveFeatureAngle 30;  // refine where surface angle exceeds 30 deg
+    refinementRegions {}
+    locationInMesh (0.1 0.1 0.1);  // MUST be inside teapot volume
+    allowFreeStandingZoneFaces true;
+}
+
+snapControls
+{
+    nSmoothPatch 3;
+    tolerance 4.0;
+    nSolveIter 30;
+    nRelaxIter 5;
+    /*
+    nSmoothPatch 5;
+    tolerance 2.0;
+    nSolveIter 100;
+    nRelaxIter 8;
+    */
+}
+
+addLayersControls
+{
+}
+
+meshQualityControls
+{
+    maxNonOrtho 65;
+    maxBoundarySkewness 20;
+    maxInternalSkewness 4;
+    maxConcave 80;
+    minVol 1e-13;
+    minTetQuality 1e-9;
+    minArea -1;
+    minTwist 0.02;
+    minDeterminant 0.001;
+    minFaceWeight 0.02;
+    minVolRatio 0.01;
+    minTriangleTwist -1;
+    errorReduction 1e-3;
+    nSmoothScale 4;
+}
+
+debug 0;
+mergeTolerance 1e-6;
+
+// ************************************************************************* //
+

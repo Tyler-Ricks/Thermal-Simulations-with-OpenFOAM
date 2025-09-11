@@ -1,0 +1,51 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Web:      www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];   // temperature [K]
+
+internalField   uniform 424;       // initial temp in the solid
+
+boundaryField
+{
+    /*
+    // Outside surface patch created by snappyHexMesh
+    teapotWalls
+    {
+        type            externalWallHeatFluxTemperature;
+        mode            heatTransferCoefficient;
+        h               uniform 15;    // convective coefficient [W/m2K]
+        Ta              uniform 293;   // ambient [K]
+        value           uniform 373;   // starting value
+    }
+
+    // Any other patches (blockMesh sides etc.) just set as empty or fixedValue
+    defaultFaces
+    {
+        type            empty;
+    }
+    */
+
+    wall
+    {
+        type            fixedValue;
+        value           uniform 293; // temperature of the teapot wall
+    }
+}
+
+// ************************************************************************* //
+
